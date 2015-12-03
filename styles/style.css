@@ -1,3 +1,12 @@
+.centered {
+    margin: auto;
+    width: 60%;
+}
+
+.title {
+    display: inline;
+}
+
 .centered-cube {
     margin: auto;
     width: 30%;
