@@ -26,7 +26,8 @@ var app = {};
     }
 
 
-    d3.csv("../data/ecobici.data", function (data) {
+    // "../data/ecobici.data"
+    d3.csv("https://raw.githubusercontent.com/dbautistav/workers/gh-pages/data/ecobici.data", function (data) {
         app.data = data;
         drawChart();
     });
