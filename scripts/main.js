@@ -26,7 +26,7 @@ var app = {};
     }
 
 
-    d3.csv("../data/ecobici.data", function (data) {
+    d3.csv("../data/ecobici.json", function (data) {
         app.data = data;
         drawChart();
     });
