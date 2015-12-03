@@ -34,24 +34,36 @@ var app = {};
     }
 
 
-    // From: https://mourner.github.io/worker-data-load
+    // Modified version taken from: https://mourner.github.io/worker-data-load
     function animateSquare() {
-        var square = document.getElementById("square"),
+        var side = "right",
+            square = document.getElementById("square"),
             start = Date.now();
 
-        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.setTimeout;
 
         function step() {
             var now = Date.now(),
-                progress = now - start;
+                progress,
+                progressProportion = 5, width = 4000;
 
-            if (progress > 7000) {
-                progress = 0;
-                start = now;
+            if (side == "right") {
+                progress = now - start;
+                if (progress > width) {
+                    side = "left";
+                    start = now;
+                }
+
+            } else {
+                progress = width + start - now;
+                if (progress < 0) {
+                    side = "right";
+                    start = now;
+                }
             }
 
-            square.style.left = (progress / 10) + "px";
+            square.style.left = (progress / progressProportion) + "px";
 
             requestAnimationFrame(step);
         }

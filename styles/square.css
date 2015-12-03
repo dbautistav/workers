@@ -1,5 +1,8 @@
 /* From: https://mourner.github.io/worker-data-load */
 .square-container {
+    margin: auto;
+    width: 80%;
+
     position: relative;
     height: 40px;
 }
