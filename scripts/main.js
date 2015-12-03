@@ -34,6 +34,33 @@ var app = {};
     }
 
 
+    // From: https://mourner.github.io/worker-data-load
+    function animateSquare() {
+        var square = document.getElementById("square"),
+            start = Date.now();
+
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.setTimeout;
+
+        function step() {
+            var now = Date.now(),
+                progress = now - start;
+
+            if (progress > 7000) {
+                progress = 0;
+                start = now;
+            }
+
+            square.style.left = (progress / 10) + "px";
+
+            requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    animateSquare();
+
     d3.csv(dataUrl, function (data) {
         if (data) {
             updateAppDataAndDrawChart(data);

@@ -1,0 +1,12 @@
+/* From: https://mourner.github.io/worker-data-load */
+.square-container {
+    position: relative;
+    height: 40px;
+}
+
+#square {
+    width: 40px;
+    height: 40px;
+    background: red;
+    position: absolute;
+}
