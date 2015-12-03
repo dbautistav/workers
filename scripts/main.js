@@ -3,8 +3,7 @@
 var app = {};
 
 (function () {
-    //var dataUrl = "../data/ecobici.data";
-    var dataUrl = "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/data/ecobici.data";
+    var dataUrl = "../data/ecobici.data";
 
     function drawChart() {
         app.groupedData = _.groupBy(app.data, "Edad_Usuario");
@@ -30,7 +29,16 @@ var app = {};
 
 
     d3.csv(dataUrl, function (data) {
-        app.data = data;
-        drawChart();
+        if (data) {
+            app.data = data;
+            drawChart();
+
+        } else {
+            dataUrl = "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/data/ecobici.data";
+            d3.csv(dataUrl, function (data) {
+                app.data = data;
+                drawChart();
+            });
+        }
     });
 })();
