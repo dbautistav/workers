@@ -1,81 +1,63 @@
-// Inspired in: https://adactio.com/journal/9775
-//var d3 = window.d3;
-
-function dataLoad() {
-    var dataUrl = "./../data/1511.data";
-
-    function drawChart() {
-        app.groupedData = _.groupBy(app.data, "Edad_Usuario");
-
-        console.log("app", app);
-
-        var plotEl = document.getElementById('plot');
-
-        var xArray = [], yArray = [];
-
-        _.forEach(_.keysIn(app.groupedData), function (_key) {
-            xArray.push(_key);
-            yArray.push(app.groupedData[_key].length);
-        });
-
-        Plotly.plot(plotEl, [{
-            x: xArray,
-            y: yArray
-        }], {
-            margin: {t: 0}
-        });
-    }
-
-
-    function updateAppDataAndDrawChart(data) {
-        app.data = data;
-        drawChart();
-    }
-
-
-    d3.csv(dataUrl, function (data) {
-        if (data) {
-            updateAppDataAndDrawChart(data);
-
-        } else {
-            dataUrl = "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/data/1511.data";
-            d3.csv(dataUrl, function (data) {
-                updateAppDataAndDrawChart(data);
-            });
-        }
-    });
-}
-
-
-self.addEventListener("install", function (event) {
-    console.log("event @install", event);
-    //event.waitUntil(updateStaticCache()
-    //    .then(function () {
-    //        return self.skipWaiting();
-    //    })
-    //);
-});
+importScripts("/scripts/vendor/serviceworker-cache-polyfill.js");
 
 self.addEventListener("activate", function (event) {
     console.log("event @activate", event);
 });
 
-self.addEventListener("message", function (event) {
-    console.log("event @message", event);
-    //if (event.data.command == "trimCaches") {
-    //    trimCache(pagesCacheName, 35);
-    //    trimCache(imagesCacheName, 20);
-    //}
+
+// Inspired on: https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
+self.addEventListener("install", function (event) {
+    console.log("event @install", event);
+    event.waitUntil(
+        caches.open("v1").then(function (cache) {
+            return cache.addAll([
+                "/",
+                "/index.html",
+                "/data/1511.data",
+                "/scripts/",
+                "/scripts/async.js",
+                "/scripts/vendor/",
+                "/scripts/vendor/d3.min.js",
+                "/scripts/vendor/lodash.min.js",
+                "/scripts/vendor/plotly.min.js",
+                "/styles/",
+                "/styles/cube.css",
+                "/styles/square.css",
+                "/styles/style.css",
+                "/views/",
+                "/views/async.html"
+            ]);
+        })
+    );
 });
 
 self.addEventListener("fetch", function (event) {
+    var response;
+
     console.log("event @fetch", event);
-});
 
-
-self.addEventListener("sync", function(event) {
-    console.log("event @sync", event);
-    if (event.tag == 'load') {
-        event.waitUntil(dataLoad());
-    }
+    event.respondWith(
+        caches
+            .match(event.request)
+            .catch(function () {
+                console.log("@first-catch");
+                return fetch(event.request);
+            })
+            .then(function (r) {
+                console.log("r @then", r);
+                response = r;
+                caches
+                    .open("v1")
+                    .then(function (cache) {
+                        console.log("cache @then", cache);
+                        cache.put(event.request, response);
+                    });
+                return response.clone();
+                //return response ? response.clone() : null;
+            })
+            .catch(function () {
+                console.log("@final-catch");
+                return caches.match("/data/1511.data");
+            })
+    );
 });
