@@ -7,11 +7,11 @@ importScripts("/scripts/vendor/serviceworker-cache-polyfill.js");
 
 // Inspired on: https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
 self.addEventListener("install", function (event) {
-    console.log("event @install", event);
-
     event.waitUntil(
         caches
+
             .open(currentVersion)
+
             .then(function (cache) {
                 return cache
                     .addAll([
@@ -39,12 +39,11 @@ self.addEventListener("install", function (event) {
                     });
             })
     );
+
 });
 
 
 self.addEventListener("activate", function (event) {
-    console.log("event @activate", event);
-
     //var cacheWhitelist = [oldVersion];
     //
     //event.waitUntil(
@@ -67,31 +66,34 @@ self.addEventListener("activate", function (event) {
 self.addEventListener("fetch", function (event) {
     var response;
 
-    console.log("event @fetch", event);
-
     event.respondWith(
         caches
+
             .match(event.request)
+
             .catch(function () {
-                console.log("@first-catch: fetch");
                 return fetch(event.request);
             })
+
             .then(function (r) {
-                console.log("Response (r) @then", r);
                 response = r;
+
                 caches
+
                     .open(currentVersion)
+
                     .then(function (cache) {
-                        console.log("cache @then", cache);
                         if (cache.put) {
                             cache.put(event.request, response);
                         }
                     });
+
                 return response ? response.clone() : null;
             })
+
             .catch(function () {
-                console.log("@final-catch: default");
                 return caches.match("/index.html");
             })
     );
+
 });

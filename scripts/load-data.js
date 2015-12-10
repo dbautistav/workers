@@ -1,6 +1,6 @@
 "use strict";
 
-//var app = {};
+var app = {};
 
 (function () {
     var dataUrl = "./../data/1511.data";

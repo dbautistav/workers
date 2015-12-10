@@ -71,15 +71,17 @@
     }
 
 
-    // "Main" entry point!
     setTimeout(function () {
         var worker = new Worker("/sw2.js");
 
         worker.onmessage = function (e) {
             console.log("Data loaded in worker", e);
-            console.info("app", app);
+            console.warn(e.data);
         };
+        worker.postMessage("Init!");
 
-        worker.postMessage(true);
+        setTimeout(function () {
+            worker.postMessage("getAppObj");
+        }, 2000);
     }, 1500);
 })();
