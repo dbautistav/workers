@@ -1,8 +1,30 @@
 "use strict";
 
-//var app = {};
-
 (function () {
+    var app = {}, msg;
+
+    function drawChart() {
+        app.groupedData = _.groupBy(app.data, "Edad_Usuario");
+
+        console.log("app", app);
+
+        var plotEl = document.getElementById("plot");
+
+        var xArray = [], yArray = [];
+
+        _.forEach(_.keysIn(app.groupedData), function (_key) {
+            xArray.push(_key);
+            yArray.push(app.groupedData[_key].length);
+        });
+
+        Plotly.plot(plotEl, [{
+            x: xArray,
+            y: yArray
+        }], {
+            margin: {t: 0}
+        });
+    }
+
     // Modified version taken from: https://mourner.github.io/worker-data-load
     function animateSquare() {
         var side = "right",
@@ -75,13 +97,23 @@
         var worker = new Worker("/sw2.js");
 
         worker.onmessage = function (e) {
+            msg = e.data;
             console.log("Data loaded in worker", e);
-            console.warn(e.data);
+
+            switch (msg.type) {
+                case "ChartData":
+                    app.data = msg.data;
+                    drawChart();
+                    break;
+
+                default: ;
+            }
         };
         worker.postMessage("Init!");
 
         setTimeout(function () {
             worker.postMessage("getAppObj");
-        }, 2000);
-    }, 1500);
+        }, 1500);
+    }, 150);
+
 })();
