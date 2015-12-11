@@ -7,7 +7,8 @@
     // Registering our service-worker
     if (navigator.serviceWorker) {
         navigator.serviceWorker
-            .register("/worker.js", {
+            //.register("/worker.js", {
+            .register("/workers/worker.js", {
             //.register("https://raw.githubusercontent.com/dbautistav/workers/gh-pages/worker.js", {
                 scope: "/workers/"
             })
