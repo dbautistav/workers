@@ -9,7 +9,7 @@
         navigator.serviceWorker
             .register("/worker.js", {
             //.register("https://raw.githubusercontent.com/dbautistav/workers/gh-pages/worker.js", {
-                scope: "/"
+                scope: "/workers/"
             })
 
             .then(function (registration) {
