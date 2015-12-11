@@ -28,9 +28,7 @@ self.addEventListener("install", function (event) {
                         "/styles/cube.css",
                         "/styles/square.css",
                         "/styles/style.css",
-                        "/views/async.html",
-                        "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/sw2.js",
-                        "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/worker.js"
+                        "/views/async.html"
                     ])
                     .then(function () {
                         return self.skipWaiting();
