@@ -6,7 +6,13 @@ var app = null;
     var dataUrl = "./../data/1511.data";
 
     function updateAppDataObj(data) {
-        app = data;
+        //app = data; ///
+
+        // TODO: improve me!
+        //app = _.groupBy(data, "Edad_Usuario");
+        //console.log("app", app);
+
+        app = data; //
     }
 
 

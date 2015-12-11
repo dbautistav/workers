@@ -23,11 +23,11 @@ self.onmessage = function (e) {
     }
 
     uInt8View = new Uint8Array(msg.data); ///
-    ////
-    //for (var i = 0; i < originalLength; ++i) {
-    //    uInt8View[i] = i;
-    //}
-    ////
+    //
+    for (var i = 0; i < uInt8View.length; ++i) {
+        uInt8View[i] = i;
+    }
+    //
     self.postMessage({type: msg.type, data: uInt8View.buffer}, [uInt8View.buffer]); ///
     //self.postMessage(uInt8View.buffer, [uInt8View.buffer]); ///
 
