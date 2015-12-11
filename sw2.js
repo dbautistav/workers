@@ -33,40 +33,13 @@ self.onmessage = function (e) {
             msg.type = "";
     }
 
-    //// Proved solution (it works!)      (begin)
-    //uInt8View = new Uint8Array(msg.data); ///
-    ////
-    //for (var i = 0; i < uInt8View.length; i++) {
-    //    uInt8View[i] = i;
-    //}
-    ////
-    //self.postMessage({type: msg.type, data: uInt8View.buffer}, [uInt8View.buffer]); ///
-    ////self.postMessage(uInt8View.buffer, [uInt8View.buffer]); ///
-    //// Proved solution (it works!)      (end)
-
-
-    // TESTING...      (begin)
-    //uInt8View = utf82ab(JSON.stringify(msg.data));  // RESTORE AFTER TUNE
-    uInt8View = utf82ab(JSON.stringify([1, 3, 5, 9, 7, 2, 8, 6, 4]));
-    //self.postMessage(uInt8View, [uInt8View]);
+    uInt8View = utf82ab(JSON.stringify(msg.data));
     self.postMessage({type: msg.type, data: uInt8View}, [uInt8View]);
-    // TESTING...      (end)
 
 
-    //arrayBuffer = new ArrayBuffer(msg.data);
-    ////self.postMessage(arrayBuffer.buffer, [arrayBuffer.buffer]);
-    //
-    //uInt8View = new Uint8Array(arrayBuffer);
-    //self.postMessage(uInt8View.buffer, [uInt8View.buffer]);
-    //
-    ////msg.data = arrayBuffer;
-    ////self.postMessage(msg, [msg.data.buffer]);
 
-    //arrayBuffer = new ArrayBuffer(msg.data); // :(
-    //self.postMessage(arrayBuffer.buffer, [arrayBuffer.buffer]); // :(
-
-
-    //self.postMessage(JSON.parse(JSON.stringify(msg)));   /// Legacy (before Transferable Objects)
+    /// Before Transferable Objects (via structured clone algorithm)
+    //self.postMessage(JSON.parse(JSON.stringify(msg)));
 
 };
 

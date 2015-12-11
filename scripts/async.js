@@ -47,8 +47,6 @@
         for (var i = 0; i < _arr.length; i++) {
             result += String.fromCharCode(_arr[i]);
         }
-        console.log("_arr", _arr);
-        console.log("result", result);
         return JSON.parse(result);
     }
 
@@ -90,19 +88,16 @@
     }
 
     function drawChart() {
-        //app.groupedData = _.groupBy(app.data, "Edad_Usuario");
-        console.log("### app", app);
+        //console.log("### app", app);
 
         var plotEl = document.getElementById("plot");
 
         var xArray = [], yArray = [];
 
-        //var input = app.groupedData;
-        var input = app.data;
-        _.forEach(_.keysIn(input), function (_key) {
-            xArray.push(_key);
-            yArray.push(input[_key]/10000);
-            //yArray.push(app.groupedData[_key].length); //?
+        var samples = app.data;
+        _.forEach(samples, function (_sample) {
+            xArray.push(_sample.x);
+            yArray.push(_sample.y);
         });
 
         Plotly.plot(plotEl, [{
@@ -124,18 +119,6 @@
             switch (msg.type) {
                 case "ChartData":
                     // With help from: https://stackoverflow.com/questions/16071211/using-transferable-objects-from-a-web-worker
-
-                    ////app.data = msg; //?
-                    //app.data = new Uint8Array(msg.data);
-                    //////app.data = msg.data;    ///
-                    //console.log("***");
-                    //console.log("msg", msg);
-                    //console.log("new Uint8Array(msg.data)", new Uint8Array(msg.data));
-                    //console.log("JSON.stringify(msg.data)", JSON.stringify(msg.data));
-                    //console.log("msg.data.byteLength", msg.data.byteLength);
-                    //console.log("***");
-                    //drawChart();
-
                     app.data = ab2utf8(msg.data);
                     drawChart();
                     break;

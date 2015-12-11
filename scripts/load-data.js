@@ -6,15 +6,13 @@ var app = [];
     var dataUrl = "./data/1511.data";
 
     function updateAppDataObj(data) {
-        //app = data; ///
+        var groupedData = _.groupBy(data, "Edad_Usuario");
 
-        // TODO: improve me!
-        //app = _.groupBy(data, "Edad_Usuario");
+        app = [];
+        _.forEach(_.keysIn(groupedData), function (_key) {
+            app.push({x: parseInt(_key), y: groupedData[_key].length});
+        });
         //console.log("app", app);
-
-        console.info("data @updateAppDataObj", data);
-
-        app = data; //
     }
 
 
