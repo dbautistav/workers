@@ -16,8 +16,8 @@ self.addEventListener("install", function (event) {
                 return cache
                     .addAll([
                         "./index.html",
-                        //"./sw2.js",
-                        //"./worker.js",
+                        "./sw2.js",
+                        "./worker.js",
                         "./data/1511.data",
                         "./scripts/async.js",
                         "./scripts/load-data.js",

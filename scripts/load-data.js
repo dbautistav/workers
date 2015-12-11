@@ -3,7 +3,7 @@
 var app = [];
 
 (function () {
-    var dataUrl = "./../data/1511.data";
+    var dataUrl = "./data/1511.data";
 
     function updateAppDataObj(data) {
         //app = data; ///
