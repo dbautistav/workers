@@ -40,16 +40,6 @@
         }, 1000);
     }
 
-    // Inspired from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
-    function ab2utf8(data) {
-        var _arr, result = "";
-        _arr = new Uint8Array(data);
-        for (var i = 0; i < _arr.length; i++) {
-            result += String.fromCharCode(_arr[i]);
-        }
-        return JSON.parse(result);
-    }
-
     // Modified version from: https://mourner.github.io/worker-data-load
     function animateSquare() {
         var side = "right",
@@ -88,7 +78,7 @@
     }
 
     function drawChart() {
-        //console.log("### app", app);
+        console.log("### app", app);
 
         var plotEl = document.getElementById("plot");
 
@@ -119,12 +109,11 @@
             switch (msg.type) {
                 case "ChartData":
                     // With help from: https://stackoverflow.com/questions/16071211/using-transferable-objects-from-a-web-worker
-                    app.data = ab2utf8(msg.data);
+                    app.data = to2utf8(msg.data);
                     drawChart();
                     break;
 
-                default:
-                    ;
+                default: ;
             }
         };
         //worker.postMessage("Init!");
@@ -142,6 +131,16 @@
             setupArray();
             worker.postMessage("getAppObj");
         }, 2000);
+    }
+
+    // Inspired from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
+    function to2utf8(data) {
+        var _arr, result = "";
+        _arr = new Uint8Array(data);
+        for (var i = 0; i < _arr.length; i++) {
+            result += String.fromCharCode(_arr[i]);
+        }
+        return JSON.parse(result);
     }
 
 
