@@ -9,6 +9,7 @@ self.onmessage = function (e) {
 
     switch (e.data) {
         case "getAppObj":
+            //setupArray();
             msg.data = app || [];
             msg.type = "ChartData";
             break;
@@ -21,19 +22,32 @@ self.onmessage = function (e) {
             msg.type = "";
     }
 
-    arrayBuffer = new ArrayBuffer(msg.data);
-    //self.postMessage(arrayBuffer.buffer, [arrayBuffer.buffer]);
+    uInt8View = new Uint8Array(msg.data); ///
+    ////
+    //for (var i = 0; i < originalLength; ++i) {
+    //    uInt8View[i] = i;
+    //}
+    ////
+    self.postMessage({type: msg.type, data: uInt8View.buffer}, [uInt8View.buffer]); ///
+    //self.postMessage(uInt8View.buffer, [uInt8View.buffer]); ///
 
-    uInt8View = new Uint8Array(arrayBuffer);
-    self.postMessage(uInt8View.buffer, [uInt8View.buffer]);
+    //arrayBuffer = new ArrayBuffer(msg.data);
+    ////self.postMessage(arrayBuffer.buffer, [arrayBuffer.buffer]);
+    //
+    //uInt8View = new Uint8Array(arrayBuffer);
+    //self.postMessage(uInt8View.buffer, [uInt8View.buffer]);
+    //
+    ////msg.data = arrayBuffer;
+    ////self.postMessage(msg, [msg.data.buffer]);
 
-    //msg.data = arrayBuffer;
-    //self.postMessage(msg, [msg.data.buffer]);
+    //arrayBuffer = new ArrayBuffer(msg.data); // :(
+    //self.postMessage(arrayBuffer.buffer, [arrayBuffer.buffer]); // :(
+
 
     //self.postMessage(JSON.parse(JSON.stringify(msg)));   /// Legacy (before Transferable Objects)
 
 };
 
 self.onerror = function () {
-    log('worker error');
+    console.log("Worker error");
 };

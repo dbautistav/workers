@@ -20,18 +20,19 @@ self.addEventListener("install", function (event) {
                         "/sw2.js",
                         "/worker.js",
                         "/data/1511.data",
-                        "/scripts/",
+                        //"/scripts/",
                         "/scripts/async.js",
                         "/scripts/load-data.js",
-                        "/scripts/vendor/",
+                        "/scripts/shared.js",
+                        //"/scripts/vendor/",
                         "/scripts/vendor/d3.min.js",
                         "/scripts/vendor/lodash.min.js",
                         "/scripts/vendor/plotly.min.js",
-                        "/styles/",
+                        //"/styles/",
                         "/styles/cube.css",
                         "/styles/square.css",
                         "/styles/style.css",
-                        "/views/",
+                        //"/views/",
                         "/views/async.html"
                     ])
                     .then(function () {
@@ -88,11 +89,11 @@ self.addEventListener("fetch", function (event) {
                         }
                     });
 
-                return response ? response.clone() : null;
+                return response ? response.clone() : fetch(event.request);
             })
 
             .catch(function () {
-                return caches.match("/index.html");
+                return fetch(event.request);
             })
     );
 

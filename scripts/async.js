@@ -1,7 +1,7 @@
 "use strict";
 
 (function () {
-    var app = {}, counter = 0, msg;
+    var app = {}, msg;
 
     // Based on: https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
     // Registering our service-worker
@@ -40,7 +40,7 @@
         }, 500);
     }
 
-    // Modified version taken from: https://mourner.github.io/worker-data-load
+    // Modified version from: https://mourner.github.io/worker-data-load
     function animateSquare() {
         var side = "right",
             square = document.getElementById("square"),
@@ -80,7 +80,7 @@
     function drawChart() {
         app.groupedData = _.groupBy(app.data, "Edad_Usuario");
 
-        console.log("app", app);
+        //console.log("app", app);
 
         var plotEl = document.getElementById("plot");
 
@@ -99,6 +99,7 @@
         });
     }
 
+    // Modified version from: https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
     function init2ndWorker() {
         var worker = new Worker("/sw2.js");
 
@@ -106,19 +107,21 @@
             msg = e.data;
             console.warn("Data loaded in worker", e);
 
-            //switch (msg.type) {
-            //    case "ChartData":
-                    if (counter > 0) {
-                        app.data = msg;
-                        //app.data = msg.data;    ///
-                        drawChart();
-                    }
-            //        break;
-            //
-            //    default:
-            //        ;
-            //}
-            counter++;
+            switch (msg.type) {
+                case "ChartData":
+                    app.data = msg;
+                    //app.data = msg.data;    ///
+                    console.log("***");
+                    console.log("msg", msg);
+                    console.log("JSON.stringify(msg.data)", JSON.stringify(msg.data));
+                    console.log("msg.data.byteLength", msg.data.byteLength);
+                    console.log("***");
+                    drawChart();
+                    break;
+
+                default:
+                    ;
+            }
         };
         //worker.postMessage("Init!");
 
