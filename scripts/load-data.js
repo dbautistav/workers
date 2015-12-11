@@ -1,6 +1,6 @@
 "use strict";
 
-var app = null;
+var app = [];
 
 (function () {
     var dataUrl = "./../data/1511.data";
@@ -11,6 +11,8 @@ var app = null;
         // TODO: improve me!
         //app = _.groupBy(data, "Edad_Usuario");
         //console.log("app", app);
+
+        console.info("data @updateAppDataObj", data);
 
         app = data; //
     }

@@ -9,7 +9,7 @@ self.onmessage = function (e) {
 
     switch (e.data) {
         case "getAppObj":
-            //setupArray();
+            setupArray();
             msg.data = app || [];
             msg.type = "ChartData";
             break;
@@ -24,12 +24,13 @@ self.onmessage = function (e) {
 
     uInt8View = new Uint8Array(msg.data); ///
     //
-    for (var i = 0; i < uInt8View.length; ++i) {
+    for (var i = 0; i < uInt8View.length; i++) {
         uInt8View[i] = i;
     }
     //
     self.postMessage({type: msg.type, data: uInt8View.buffer}, [uInt8View.buffer]); ///
     //self.postMessage(uInt8View.buffer, [uInt8View.buffer]); ///
+
 
     //arrayBuffer = new ArrayBuffer(msg.data);
     ////self.postMessage(arrayBuffer.buffer, [arrayBuffer.buffer]);

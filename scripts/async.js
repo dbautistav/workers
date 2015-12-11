@@ -37,7 +37,7 @@
 
         setTimeout(function () {
             init2ndWorker();
-        }, 500);
+        }, 1000);
     }
 
     // Modified version from: https://mourner.github.io/worker-data-load
@@ -115,12 +115,12 @@
                     //app.data = msg; //?
                     app.data = new Uint8Array(msg.data);
                     ////app.data = msg.data;    ///
-                    //console.log("***");
-                    //console.log("msg", msg);
-                    //console.log("new Uint8Array(msg.data)", new Uint8Array(msg.data));
-                    //console.log("JSON.stringify(msg.data)", JSON.stringify(msg.data));
-                    //console.log("msg.data.byteLength", msg.data.byteLength);
-                    //console.log("***");
+                    console.log("***");
+                    console.log("msg", msg);
+                    console.log("new Uint8Array(msg.data)", new Uint8Array(msg.data));
+                    console.log("JSON.stringify(msg.data)", JSON.stringify(msg.data));
+                    console.log("msg.data.byteLength", msg.data.byteLength);
+                    console.log("***");
                     drawChart();
                     break;
 
@@ -142,7 +142,7 @@
         setTimeout(function () {
             setupArray();
             worker.postMessage("getAppObj");
-        }, 1500);
+        }, 2000);
     }
 
 

@@ -15,24 +15,19 @@ self.addEventListener("install", function (event) {
             .then(function (cache) {
                 return cache
                     .addAll([
-                        "/",
                         "/index.html",
                         "/sw2.js",
                         "/worker.js",
                         "/data/1511.data",
-                        //"/scripts/",
                         "/scripts/async.js",
                         "/scripts/load-data.js",
                         "/scripts/shared.js",
-                        //"/scripts/vendor/",
                         "/scripts/vendor/d3.min.js",
                         "/scripts/vendor/lodash.min.js",
                         "/scripts/vendor/plotly.min.js",
-                        //"/styles/",
                         "/styles/cube.css",
                         "/styles/square.css",
                         "/styles/style.css",
-                        //"/views/",
                         "/views/async.html"
                     ])
                     .then(function () {
