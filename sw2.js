@@ -2,6 +2,17 @@
 //  https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
 importScripts("./scripts/shared.js");
 
+// Taken from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
+function utf82ab(str) {
+    var buf, bufView;
+    buf = new ArrayBuffer(str.length);
+    bufView = new Uint8Array(buf);
+    for (var i = 0, strLen = str.length; i < strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+    }
+    return buf;
+}
+
 self.onmessage = function (e) {
     var msg = {}, uInt8View;
 
@@ -22,14 +33,24 @@ self.onmessage = function (e) {
             msg.type = "";
     }
 
-    uInt8View = new Uint8Array(msg.data); ///
-    //
-    for (var i = 0; i < uInt8View.length; i++) {
-        uInt8View[i] = i;
-    }
-    //
-    self.postMessage({type: msg.type, data: uInt8View.buffer}, [uInt8View.buffer]); ///
-    //self.postMessage(uInt8View.buffer, [uInt8View.buffer]); ///
+    //// Proved solution (it works!)      (begin)
+    //uInt8View = new Uint8Array(msg.data); ///
+    ////
+    //for (var i = 0; i < uInt8View.length; i++) {
+    //    uInt8View[i] = i;
+    //}
+    ////
+    //self.postMessage({type: msg.type, data: uInt8View.buffer}, [uInt8View.buffer]); ///
+    ////self.postMessage(uInt8View.buffer, [uInt8View.buffer]); ///
+    //// Proved solution (it works!)      (end)
+
+
+    // TESTING...      (begin)
+    //uInt8View = utf82ab(JSON.stringify(msg.data));  // RESTORE AFTER TUNE
+    uInt8View = utf82ab(JSON.stringify([1, 3, 5, 9, 7, 2, 8, 6, 4]));
+    //self.postMessage(uInt8View, [uInt8View]);
+    self.postMessage({type: msg.type, data: uInt8View}, [uInt8View]);
+    // TESTING...      (end)
 
 
     //arrayBuffer = new ArrayBuffer(msg.data);
