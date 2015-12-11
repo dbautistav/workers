@@ -17,7 +17,7 @@ self.addEventListener("install", function (event) {
                     .addAll([
                         "/index.html",
                         "/sw2.js",
-                        "/worker.js",
+                        //"/worker.js",
                         "/data/1511.data",
                         "/scripts/async.js",
                         "/scripts/load-data.js",
