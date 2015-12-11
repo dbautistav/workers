@@ -40,6 +40,18 @@
         }, 1000);
     }
 
+    // Inspired from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
+    function ab2utf8(data) {
+        var _arr, result = "";
+        _arr = new Uint8Array(data);
+        for (var i = 0; i < _arr.length; i++) {
+            result += String.fromCharCode(_arr[i]);
+        }
+        console.log("_arr", _arr);
+        console.log("result", result);
+        return JSON.parse(result);
+    }
+
     // Modified version from: https://mourner.github.io/worker-data-load
     function animateSquare() {
         var side = "right",
@@ -112,15 +124,19 @@
             switch (msg.type) {
                 case "ChartData":
                     // With help from: https://stackoverflow.com/questions/16071211/using-transferable-objects-from-a-web-worker
-                    //app.data = msg; //?
-                    app.data = new Uint8Array(msg.data);
-                    ////app.data = msg.data;    ///
-                    console.log("***");
-                    console.log("msg", msg);
-                    console.log("new Uint8Array(msg.data)", new Uint8Array(msg.data));
-                    console.log("JSON.stringify(msg.data)", JSON.stringify(msg.data));
-                    console.log("msg.data.byteLength", msg.data.byteLength);
-                    console.log("***");
+
+                    ////app.data = msg; //?
+                    //app.data = new Uint8Array(msg.data);
+                    //////app.data = msg.data;    ///
+                    //console.log("***");
+                    //console.log("msg", msg);
+                    //console.log("new Uint8Array(msg.data)", new Uint8Array(msg.data));
+                    //console.log("JSON.stringify(msg.data)", JSON.stringify(msg.data));
+                    //console.log("msg.data.byteLength", msg.data.byteLength);
+                    //console.log("***");
+                    //drawChart();
+
+                    app.data = ab2utf8(msg.data);
                     drawChart();
                     break;
 
