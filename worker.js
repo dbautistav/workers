@@ -2,7 +2,8 @@ var currentVersion = "v1",
     oldVersion = "v0";
 
 // From: http://www.html5rocks.com/en/tutorials/service-worker/introduction/
-importScripts("/scripts/vendor/serviceworker-cache-polyfill.js");
+importScripts("./scripts/vendor/serviceworker-cache-polyfill.js");
+//importScripts("/scripts/vendor/serviceworker-cache-polyfill.js");
 
 
 // Inspired on: https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
