@@ -16,7 +16,7 @@ self.addEventListener("install", function (event) {
                 return cache
                     .addAll([
                         "/index.html",
-                        "/sw2.js",
+                        //"/sw2.js",
                         //"/worker.js",
                         "/data/1511.data",
                         "/scripts/async.js",
@@ -28,7 +28,9 @@ self.addEventListener("install", function (event) {
                         "/styles/cube.css",
                         "/styles/square.css",
                         "/styles/style.css",
-                        "/views/async.html"
+                        "/views/async.html",
+                        "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/sw2.js",
+                        "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/worker.js"
                     ])
                     .then(function () {
                         return self.skipWaiting();
