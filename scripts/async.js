@@ -7,8 +7,8 @@
     // Registering our service-worker
     if (navigator.serviceWorker) {
         navigator.serviceWorker
-            //.register("/worker.js", {
-            .register("https://raw.githubusercontent.com/dbautistav/workers/gh-pages/worker.js", {
+            .register("/worker.js", {
+            //.register("https://raw.githubusercontent.com/dbautistav/workers/gh-pages/worker.js", {
                 scope: "/"
             })
 
@@ -104,8 +104,8 @@
 
     // Modified version from: https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
     function init2ndWorker() {
-        //var worker = new Worker("/sw2.js");
-        var worker = new Worker("https://raw.githubusercontent.com/dbautistav/workers/gh-pages/sw2.js");
+        var worker = new Worker("/sw2.js");
+        //var worker = new Worker("https://raw.githubusercontent.com/dbautistav/workers/gh-pages/sw2.js");
 
         worker.onmessage = function (e) {
             msg = e.data;
