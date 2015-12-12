@@ -1,7 +1,24 @@
 var currentVersion = "v1",
     oldVersion = "v0";
 
-// From: http://www.html5rocks.com/en/tutorials/service-worker/introduction/
+var cachedFilesWithPath = [
+    "./index.html",
+    "./sw2.js",
+    "./worker.js",
+    "./data/1511.data",
+    "./scripts/async.js",
+    "./scripts/load-data.js",
+    "./scripts/shared.js",
+    "./scripts/vendor/d3.min.js",
+    "./scripts/vendor/lodash.min.js",
+    "./scripts/vendor/plotly.min.js",
+    "./styles/cube.css",
+    "./styles/square.css",
+    "./styles/style.css",
+    "./views/async.html"
+];
+
+// From: http://www.html5rocks.com/en/tutorials/service-worker/introduction
 importScripts("./scripts/vendor/serviceworker-cache-polyfill.js");
 
 
@@ -14,22 +31,9 @@ self.addEventListener("install", function (event) {
 
             .then(function (cache) {
                 return cache
-                    .addAll([
-                        "./index.html",
-                        "./sw2.js",
-                        "./worker.js",
-                        "./data/1511.data",
-                        "./scripts/async.js",
-                        "./scripts/load-data.js",
-                        "./scripts/shared.js",
-                        "./scripts/vendor/d3.min.js",
-                        "./scripts/vendor/lodash.min.js",
-                        "./scripts/vendor/plotly.min.js",
-                        "./styles/cube.css",
-                        "./styles/square.css",
-                        "./styles/style.css",
-                        "./views/async.html"
-                    ])
+
+                    .addAll(cachedFilesWithPath)
+
                     .then(function () {
                         return self.skipWaiting();
                     });

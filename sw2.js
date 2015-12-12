@@ -5,7 +5,7 @@ importScripts("./scripts/shared.js");
 var app;
 
 // Taken from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
-function utf82to(str) {
+function utf82ArrayBuffer(str) {
     var buf, bufView;
     buf = new ArrayBuffer(str.length);
     bufView = new Uint8Array(buf);
@@ -70,7 +70,7 @@ self.onmessage = function (e) {
     }
 
     function sendMessage() {
-        uInt8View = utf82to(JSON.stringify(msg.data));
+        uInt8View = utf82ArrayBuffer(JSON.stringify(msg.data));
         self.postMessage({type: msg.type, data: uInt8View}, [uInt8View]);
     }
 

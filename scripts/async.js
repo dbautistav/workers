@@ -40,6 +40,16 @@
         }, 1000);
     }
 
+    // Inspired from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
+    function arrayBuffer2utf8(data) {
+        var _arr, result = "";
+        _arr = new Uint8Array(data);
+        for (var i = 0; i < _arr.length; i++) {
+            result += String.fromCharCode(_arr[i]);
+        }
+        return JSON.parse(result);
+    }
+
     // Modified version from: https://mourner.github.io/worker-data-load
     function animateSquare() {
         var side = "right",
@@ -109,14 +119,13 @@
             switch (msg.type) {
                 case "ChartData":
                     // With help from: https://stackoverflow.com/questions/16071211/using-transferable-objects-from-a-web-worker
-                    app.data = to2utf8(msg.data);
+                    app.data = arrayBuffer2utf8(msg.data);
                     drawChart();
                     break;
 
                 default: ;
             }
         };
-        //worker.postMessage("Init!");
 
         var ab = new ArrayBuffer(1);
         worker.postMessage(ab, [ab]);
@@ -125,22 +134,13 @@
 
         } else {
             console.log("Transferables are supported in your browser! :)");
+            worker.postMessage("Init!");
         }
 
         setTimeout(function () {
             setupArray();
             worker.postMessage("getAppObj");
         }, 2000);
-    }
-
-    // Inspired from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
-    function to2utf8(data) {
-        var _arr, result = "";
-        _arr = new Uint8Array(data);
-        for (var i = 0; i < _arr.length; i++) {
-            result += String.fromCharCode(_arr[i]);
-        }
-        return JSON.parse(result);
     }
 
 
