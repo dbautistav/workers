@@ -101,6 +101,10 @@
         });
 
         Plotly.plot(plotEl, [{
+            mode: "markers",
+            marker: {
+                size: [40, 60, 80, 100]
+            },
             x: xArray,
             y: yArray
         }], {

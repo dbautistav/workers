@@ -22,14 +22,6 @@ self.onmessage = function (e) {
 
     switch (e.data) {
         case "getAppObj":
-            //setupArray(); ///
-            msg.data = app || [];
-            msg.type = "";
-            //msg.type = "ChartData";   ///
-            sendMessage();
-            break;
-
-        default:
             importScripts("./scripts/vendor/d3.min.js");
             importScripts("./scripts/vendor/lodash.min.js");
             //importScripts("./scripts/load-data.js");
@@ -67,6 +59,17 @@ self.onmessage = function (e) {
 
             //msg.data = [];
             //msg.type = "";
+
+
+
+            ////setupArray(); ///
+            //msg.data = app || [];
+            //msg.type = "";
+            ////msg.type = "ChartData";   ///
+            //sendMessage();
+            break;
+
+        default: ;
     }
 
     function sendMessage() {
