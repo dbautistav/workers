@@ -2,6 +2,8 @@
 //  https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
 importScripts("./scripts/shared.js");
 
+var app;
+
 // Taken from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
 function utf82to(str) {
     var buf, bufView;
@@ -20,21 +22,57 @@ self.onmessage = function (e) {
 
     switch (e.data) {
         case "getAppObj":
-            setupArray();
+            //setupArray(); ///
             msg.data = app || [];
-            msg.type = "ChartData";
+            msg.type = "";
+            //msg.type = "ChartData";   ///
+            sendMessage();
             break;
 
         default:
             importScripts("./scripts/vendor/d3.min.js");
             importScripts("./scripts/vendor/lodash.min.js");
-            importScripts("./scripts/load-data.js");
-            msg.data = [];
-            msg.type = "";
+            //importScripts("./scripts/load-data.js");
+
+            var dataUrl = "./data/1511.data";
+
+        function updateAppDataObj(data) {
+            var groupedData = _.groupBy(data, "Edad_Usuario");
+
+            app = [];
+            _.forEach(_.keysIn(groupedData), function (_key) {
+                app.push({x: parseInt(_key), y: groupedData[_key].length});
+            });
+
+            console.info("app", app);
+
+            msg.data = app || [];
+            msg.type = "ChartData";
+            sendMessage();
+        }
+
+            d3.csv(dataUrl, function (data) {
+                if (data) {
+                    updateAppDataObj(data);
+
+                } else {
+                    dataUrl = "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/data/1511.data";
+                    d3.csv(dataUrl, function (data) {
+                        updateAppDataObj(data);
+                    });
+                }
+            });
+            console.log("ALREADY FINISHED?");
+            console.log("ALREADY FINISHED?");
+
+            //msg.data = [];
+            //msg.type = "";
     }
 
-    uInt8View = utf82to(JSON.stringify(msg.data));
-    self.postMessage({type: msg.type, data: uInt8View}, [uInt8View]);
+    function sendMessage() {
+        uInt8View = utf82to(JSON.stringify(msg.data));
+        self.postMessage({type: msg.type, data: uInt8View}, [uInt8View]);
+    }
 
 
 
@@ -44,5 +82,5 @@ self.onmessage = function (e) {
 };
 
 self.onerror = function () {
-    console.log("Worker error");
+    console.error("Worker error");
 };
