@@ -1,46 +1,17 @@
 "use strict";
 
-var app = {};
-
 (function () {
+    var app = {};
     var dataUrl = "./../data/1511.data";
 
-    function drawChart() {
-        app.groupedData = _.groupBy(app.data, "Edad_Usuario");
-
-        console.log("app", app);
-
-        var plotEl = document.getElementById('plot');
-
-        var xArray = [], yArray = [];
-
-        _.forEach(_.keysIn(app.groupedData), function (_key) {
-            xArray.push(_key);
-            yArray.push(app.groupedData[_key].length);
-        });
-
-        var layout = {
-            title: "Ecobici users (CDMX) per age :: November 2015",
-            xaxis: {
-                title: "Age"
-            },
-            yaxis: {
-                title: "Number of users"
+    function activate() {
+        animateSquare();
+        d3.csv(dataUrl, function (data) {
+            if (data) {
+                updateAppDataAndDrawChart(data);
             }
-        };
-
-        Plotly.plot(plotEl, [{
-            x: xArray,
-            y: yArray
-        }], layout);
+        });
     }
-
-
-    function updateAppDataAndDrawChart(data) {
-        app.data = data;
-        drawChart();
-    }
-
 
     // Modified version taken from: https://mourner.github.io/worker-data-load
     function animateSquare() {
@@ -79,17 +50,43 @@ var app = {};
         requestAnimationFrame(step);
     }
 
-    animateSquare();
+    function drawChart() {
+        app.groupedData = _.groupBy(app.data, "Edad_Usuario");
+        //console.log("app", app);
 
-    d3.csv(dataUrl, function (data) {
-        if (data) {
-            updateAppDataAndDrawChart(data);
+        var plotEl = document.getElementById('plot');
 
-        } else {
-            dataUrl = "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/data/1511.data";
-            d3.csv(dataUrl, function (data) {
-                updateAppDataAndDrawChart(data);
-            });
-        }
-    });
+        var xArray = [], yArray = [];
+
+        _.forEach(_.keysIn(app.groupedData), function (_key) {
+            xArray.push(_key);
+            yArray.push(app.groupedData[_key].length);
+        });
+
+        var layout = {
+            title: "Ecobici users (CDMX) per age :: November 2015",
+            xaxis: {
+                title: "Age"
+            },
+            yaxis: {
+                title: "Number of users"
+            }
+        };
+
+        Plotly.plot(plotEl, [{
+            x: xArray,
+            y: yArray
+        }], layout);
+    }
+
+
+    function updateAppDataAndDrawChart(data) {
+        app.data = data;
+        drawChart();
+    }
+
+
+    // Main entry point!
+    activate();
+
 })();

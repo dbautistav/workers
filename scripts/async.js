@@ -34,10 +34,7 @@
 
     function activate() {
         animateSquare();
-
-        //setTimeout(function () {
-            init2ndWorker();
-        //}, 1000);
+        init2ndWorker();
     }
 
     // Inspired from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
