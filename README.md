@@ -1,7 +1,7 @@
 # Workers Test Drive!
 This is just a demo comparing sync vs async (via workers) versions of the "same" page in terms of performance.
 
-![screenshot](https://cloud.githubusercontent.com/assets/8743976/11825186/3767a9f8-a343-11e5-9d5f-eab6eea112b0.png)
+![screenshot](https://cloud.githubusercontent.com/assets/8743976/11826069/991b1edc-a348-11e5-9f04-47c6674c5375.png)
 
 You can play with it here: https://dbautistav.github.io/workers
 
