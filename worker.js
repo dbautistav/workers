@@ -1,3 +1,5 @@
+"use strict";
+
 var currentVersion = "v1",
     oldVersion = "v0";
 
@@ -7,8 +9,6 @@ var cachedFilesWithPath = [
     "./worker.js",
     "./data/1511.data",
     "./scripts/async.js",
-    "./scripts/load-data.js",
-    "./scripts/shared.js",
     "./scripts/vendor/d3.min.js",
     "./scripts/vendor/lodash.min.js",
     "./scripts/vendor/plotly.min.js",
@@ -43,24 +43,7 @@ self.addEventListener("install", function (event) {
 });
 
 
-self.addEventListener("activate", function (event) {
-    //var cacheWhitelist = [oldVersion];
-    //
-    //event.waitUntil(
-    //    caches
-    //        .keys()
-    //        .then(function (keyList) {
-    //            return Promise
-    //                .all(keyList
-    //                    .map(function (key, i) {
-    //                        if (cacheWhitelist.indexOf(key) === -1) {
-    //                            return caches.delete(keyList[i]);
-    //                        }
-    //                    })
-    //                );
-    //        })
-    //);
-});
+self.addEventListener("activate", function (event) { });
 
 
 self.addEventListener("fetch", function (event) {

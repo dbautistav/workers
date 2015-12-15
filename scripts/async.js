@@ -8,7 +8,7 @@
     if (navigator.serviceWorker) {
         navigator.serviceWorker
             .register("./../worker.js", {
-                scope: "./"
+                scope: "./../"
             })
 
             .then(function (registration) {
@@ -35,18 +35,20 @@
     function activate() {
         animateSquare();
 
-        setTimeout(function () {
+        //setTimeout(function () {
             init2ndWorker();
-        }, 1000);
+        //}, 1000);
     }
 
     // Inspired from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
     function arrayBuffer2utf8(data) {
         var _arr, result = "";
         _arr = new Uint8Array(data);
-        for (var i = 0; i < _arr.length; i++) {
-            result += String.fromCharCode(_arr[i]);
-        }
+
+        _.forEach(_arr, function (_item, i) {
+            result += String.fromCharCode(_item);
+        });
+
         return JSON.parse(result);
     }
 
@@ -88,7 +90,7 @@
     }
 
     function drawChart() {
-        console.log("### app", app);
+        //console.log("### app", app);
 
         var plotEl = document.getElementById("plot");
 
@@ -101,10 +103,6 @@
         });
 
         Plotly.plot(plotEl, [{
-            //mode: "markers",
-            //marker: {
-            //    size: [40, 60, 80, 100]
-            //},
             x: xArray,
             y: yArray
         }], {
@@ -118,7 +116,7 @@
 
         worker.onmessage = function (e) {
             msg = e.data;
-            console.warn("Data loaded in worker", e);
+            //console.log("Data loaded in worker", e);
 
             switch (msg.type) {
                 case "ChartData":
@@ -135,16 +133,13 @@
         worker.postMessage(ab, [ab]);
         if (ab.byteLength) {
             console.log("Transferables are not supported in your browser! :(");
+            worker.postMessage("Init!");
 
         } else {
             console.log("Transferables are supported in your browser! :)");
-            worker.postMessage("Init!");
+            worker.postMessage("getAppObj");
         }
 
-        setTimeout(function () {
-            setupArray();
-            worker.postMessage("getAppObj");
-        }, 2000);
     }
 
 

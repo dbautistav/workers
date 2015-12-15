@@ -1,86 +1,62 @@
+"use strict";
+
 // Inspired on:
 //  https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
-importScripts("./scripts/shared.js");
+var app,
+    wrk = {
+        dataUrl: "./data/1511.data"
+    };
 
-var app;
+function sendMessage(msg) {
+    var uInt8View = utf82ArrayBuffer(JSON.stringify(msg.data));
+    self.postMessage({type: msg.type, data: uInt8View}, [uInt8View]);
+
+    /// Before Transferable Objects (via structured clone algorithm)
+    //self.postMessage(JSON.parse(JSON.stringify(msg)));
+}
+
+function updateAppDataObj(data) {
+    var groupedData = _.groupBy(data, "Edad_Usuario");
+
+    app = [];
+    _.forEach(_.keysIn(groupedData), function (_key) {
+        app.push({x: parseInt(_key), y: groupedData[_key].length});
+    });
+
+    sendMessage({
+        data: app || [],
+        type: "ChartData"
+    });
+}
 
 // Taken from: https://developerblog.redhat.com/2014/05/20/communicating-large-objects-with-web-workers-in-javascript
 function utf82ArrayBuffer(str) {
     var buf, bufView;
     buf = new ArrayBuffer(str.length);
     bufView = new Uint8Array(buf);
-    for (var i = 0, strLen = str.length; i < strLen; i++) {
+
+    _.forEach(str, function (_c, i) {
         bufView[i] = str.charCodeAt(i);
-    }
+    });
+
     return buf;
 }
 
 self.onmessage = function (e) {
-    var msg = {}, uInt8View;
-
-    console.log("e @onmessage", e);
-
     switch (e.data) {
         case "getAppObj":
             importScripts("./scripts/vendor/d3.min.js");
             importScripts("./scripts/vendor/lodash.min.js");
-            //importScripts("./scripts/load-data.js");
 
-            var dataUrl = "./data/1511.data";
-
-        function updateAppDataObj(data) {
-            var groupedData = _.groupBy(data, "Edad_Usuario");
-
-            app = [];
-            _.forEach(_.keysIn(groupedData), function (_key) {
-                app.push({x: parseInt(_key), y: groupedData[_key].length});
-            });
-
-            console.info("app", app);
-
-            msg.data = app || [];
-            msg.type = "ChartData";
-            sendMessage();
-        }
-
-            d3.csv(dataUrl, function (data) {
+            d3.csv(wrk.dataUrl, function (data) {
                 if (data) {
                     updateAppDataObj(data);
-
-                } else {
-                    dataUrl = "https://raw.githubusercontent.com/dbautistav/workers/gh-pages/data/1511.data";
-                    d3.csv(dataUrl, function (data) {
-                        updateAppDataObj(data);
-                    });
                 }
             });
-            console.log("ALREADY FINISHED?");
-            console.log("ALREADY FINISHED?");
-
-            //msg.data = [];
-            //msg.type = "";
-
-
-
-            ////setupArray(); ///
-            //msg.data = app || [];
-            //msg.type = "";
-            ////msg.type = "ChartData";   ///
-            //sendMessage();
             break;
 
         default: ;
     }
-
-    function sendMessage() {
-        uInt8View = utf82ArrayBuffer(JSON.stringify(msg.data));
-        self.postMessage({type: msg.type, data: uInt8View}, [uInt8View]);
-    }
-
-
-
-    /// Before Transferable Objects (via structured clone algorithm)
-    //self.postMessage(JSON.parse(JSON.stringify(msg)));
 
 };
 
