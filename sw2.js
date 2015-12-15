@@ -2,8 +2,7 @@
 
 // Inspired on:
 //  https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
-var app,
-    wrk = {
+var wrk = {
         dataUrl: "./data/1511.data"
     };
 
@@ -18,13 +17,13 @@ function sendMessage(msg) {
 function updateAppDataObj(data) {
     var groupedData = _.groupBy(data, "Edad_Usuario");
 
-    app = [];
+    var dataArray = [];
     _.forEach(_.keysIn(groupedData), function (_key) {
-        app.push({x: parseInt(_key), y: groupedData[_key].length});
+        dataArray.push({x: parseInt(_key), y: groupedData[_key].length});
     });
 
     sendMessage({
-        data: app || [],
+        data: dataArray || [],
         type: "ChartData"
     });
 }

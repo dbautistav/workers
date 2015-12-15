@@ -1,7 +1,7 @@
 "use strict";
 
 (function () {
-    var app = {}, msg;
+    var app = {};
 
     // Based on: https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
     // Registering our service-worker
@@ -112,6 +112,7 @@
 
     // Modified version from: https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
     function init2ndWorker() {
+        var msg;
         var worker = new Worker("./../sw2.js");
 
         worker.onmessage = function (e) {
