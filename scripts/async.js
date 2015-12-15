@@ -90,8 +90,6 @@
     }
 
     function drawChart() {
-        //console.log("### app", app);
-
         var plotEl = document.getElementById("plot");
 
         var xArray = [], yArray = [];
@@ -102,12 +100,20 @@
             yArray.push(_sample.y);
         });
 
+        var layout = {
+            title: "Ecobici users (CDMX) per age :: November 2015",
+            xaxis: {
+                title: "Age"
+            },
+            yaxis: {
+                title: "Number of users"
+            }
+        };
+
         Plotly.plot(plotEl, [{
             x: xArray,
             y: yArray
-        }], {
-            margin: {t: 0}
-        });
+        }], layout);
     }
 
     // Modified version from: https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast

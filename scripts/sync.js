@@ -19,12 +19,20 @@ var app = {};
             yArray.push(app.groupedData[_key].length);
         });
 
+        var layout = {
+            title: "Ecobici users (CDMX) per age :: November 2015",
+            xaxis: {
+                title: "Age"
+            },
+            yaxis: {
+                title: "Number of users"
+            }
+        };
+
         Plotly.plot(plotEl, [{
             x: xArray,
             y: yArray
-        }], {
-            margin: {t: 0}
-        });
+        }], layout);
     }
 
 
