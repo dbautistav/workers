@@ -9,6 +9,7 @@ var cachedFilesWithPath = [
     "./worker.js",
     "./data/1511.data",
     "./scripts/async.js",
+    "./scripts/utils.js",
     "./scripts/vendor/d3.min.js",
     "./scripts/vendor/lodash.min.js",
     "./scripts/vendor/plotly.min.js",

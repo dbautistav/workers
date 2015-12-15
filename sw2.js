@@ -14,7 +14,7 @@ function sendMessage(msg) {
     //self.postMessage(JSON.parse(JSON.stringify(msg)));
 }
 
-function updateAppDataObj(data) {
+function SendDataAsMessage(data) {
     var groupedData = _.groupBy(data, "Edad_Usuario");
 
     var dataArray = [];
@@ -49,7 +49,7 @@ self.onmessage = function (e) {
 
             d3.csv(wrk.dataUrl, function (data) {
                 if (data) {
-                    updateAppDataObj(data);
+                    SendDataAsMessage(data);
                 }
             });
             break;

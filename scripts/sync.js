@@ -1,88 +1,25 @@
 "use strict";
 
 (function () {
-    var app = {};
     var dataUrl = "./../data/1511.data";
 
     function activate() {
-        animateSquare();
+        utils.animateSquare();
         d3.csv(dataUrl, function (data) {
             if (data) {
-                updateAppDataAndDrawChart(data);
+                handleAppDataAndDrawChart(data);
             }
         });
     }
 
-    // Modified version taken from: https://mourner.github.io/worker-data-load
-    function animateSquare() {
-        var side = "right",
-            square = document.getElementById("square"),
-            start = Date.now();
+    function handleAppDataAndDrawChart(data) {
+        var groupedData = _.groupBy(data, "Edad_Usuario");
 
-        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-            window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.setTimeout;
-
-        function step() {
-            var now = Date.now(),
-                progress,
-                progressProportion = 5, width = 4000;
-
-            if (side == "right") {
-                progress = now - start;
-                if (progress > width) {
-                    side = "left";
-                    start = now;
-                }
-
-            } else {
-                progress = width + start - now;
-                if (progress < 0) {
-                    side = "right";
-                    start = now;
-                }
-            }
-
-            square.style.left = (progress / progressProportion) + "px";
-
-            requestAnimationFrame(step);
-        }
-
-        requestAnimationFrame(step);
-    }
-
-    function drawChart() {
-        app.groupedData = _.groupBy(app.data, "Edad_Usuario");
-        //console.log("app", app);
-
-        var plotEl = document.getElementById('plot');
-
-        var xArray = [], yArray = [];
-
-        _.forEach(_.keysIn(app.groupedData), function (_key) {
-            xArray.push(_key);
-            yArray.push(app.groupedData[_key].length);
+        var dataArray = [];
+        _.forEach(_.keysIn(groupedData), function (_key) {
+            dataArray.push({x: parseInt(_key), y: groupedData[_key].length});
         });
-
-        var layout = {
-            title: "Ecobici users (CDMX) per age :: November 2015",
-            xaxis: {
-                title: "Age"
-            },
-            yaxis: {
-                title: "Number of users"
-            }
-        };
-
-        Plotly.plot(plotEl, [{
-            x: xArray,
-            y: yArray
-        }], layout);
-    }
-
-
-    function updateAppDataAndDrawChart(data) {
-        app.data = data;
-        drawChart();
+        utils.drawChart(dataArray);
     }
 
 
