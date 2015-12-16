@@ -10,7 +10,7 @@ This version loads a ["large file" (~49.7 MB)](https://github.com/dbautistav/wor
 The red square is animated via JS while the numbered cube is CSS animated therefore the first one is affected when the file is loaded but the other one no.
 
 ## Multi-thread version
-Just like single thread version but the main thread "creates" a service worker for loading the data and also registers a web worker to enable catching and offline capabilities.
+Just like single thread version but the main thread "creates" a service worker for loading the data and also registers a web worker to enable caching and offline capabilities.
 Later the loaded data is transferred from worker to main thread and plotted.
 Since data load is done at service worker thread this does not affect JS animation (red square).
 Web worker effects are specially noted when refreshing the page or visiting the site without network connection after first full load (visible chart).
