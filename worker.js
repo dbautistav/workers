@@ -8,7 +8,7 @@ var cachedFilesWithPath = [
     "./sw2.js",
     "./worker.js",
     "./data/1511.data",
-    "./scripts/async.js",
+    "./scripts/multi.js",
     "./scripts/utils.js",
     "./scripts/vendor/d3.min.js",
     "./scripts/vendor/lodash.min.js",
@@ -16,7 +16,7 @@ var cachedFilesWithPath = [
     "./styles/cube.css",
     "./styles/square.css",
     "./styles/style.css",
-    "./views/async.html"
+    "./views/multi.html"
 ];
 
 // From: http://www.html5rocks.com/en/tutorials/service-worker/introduction
